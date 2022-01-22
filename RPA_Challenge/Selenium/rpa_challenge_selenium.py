@@ -2,6 +2,8 @@
 import os
 import pandas as pd
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Inicializa as variáveis
@@ -34,31 +36,33 @@ chrome_options.add_argument('--disable-in-process-stack-traces')
 chrome_options.add_argument('--start-maximized')
 
 # Cria instância do navegador
-driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options, service_log_path=os.devnull)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options, service_log_path=os.devnull)
 
 # Acessa o site
 driver.get(url_site)
 
 # Clica em Start
-driver.find_element_by_tag_name("button").click()
+driver.find_element(By.TAG_NAME, "button").click()
 
 # Processa o Laço principal
 for item in range(len(client)):
 
     # Preenche os campos
-    driver.find_element_by_xpath("//*[text() = 'First Name']/following-sibling::input").send_keys(client[item]["Name"])
-    driver.find_element_by_xpath("//*[text() = 'Last Name']/following-sibling::input").send_keys(client[item]["LastName"])
-    driver.find_element_by_xpath("//*[text() = 'Company Name']/following-sibling::input").send_keys(client[item]["Company"])
-    driver.find_element_by_xpath("//*[text() = 'Role in Company']/following-sibling::input").send_keys(client[item]["Role"])
-    driver.find_element_by_xpath("//*[text() = 'Address']/following-sibling::input").send_keys(client[item]["Address"])
-    driver.find_element_by_xpath("//*[text() = 'Email']/following-sibling::input").send_keys(client[item]["Email"])
-    driver.find_element_by_xpath("//*[text() = 'Phone Number']/following-sibling::input").send_keys(str(client[item]["Phone"]))
+    driver.find_element(By.XPATH, "//*[text() = 'First Name']/following-sibling::input").send_keys(client[item]["Name"])
+    driver.find_element(By.XPATH, "//*[text() = 'Last Name']/following-sibling::input").send_keys(client[item]["LastName"])
+    driver.find_element(By.XPATH, "//*[text() = 'Company Name']/following-sibling::input").send_keys(client[item]["Company"])
+    driver.find_element(By.XPATH, "//*[text() = 'Role in Company']/following-sibling::input").send_keys(client[item]["Role"])
+    driver.find_element(By.XPATH, "//*[text() = 'Address']/following-sibling::input").send_keys(client[item]["Address"])
+    driver.find_element(By.XPATH, "//*[text() = 'Email']/following-sibling::input").send_keys(client[item]["Email"])
+    driver.find_element(By.XPATH, "//*[text() = 'Phone Number']/following-sibling::input").send_keys(str(client[item]["Phone"]))
 
     # Clica em submit
-    submit_button = driver.find_elements_by_tag_name("input")
+    submit_button = driver.find_elements(By.TAG_NAME, "input")
     for input_element in enumerate(submit_button):
         if input_element[1].get_attribute("value") == "Submit":
             input_element[1].click()
+
+print(driver.find_element(By.XPATH, "//div[contains(text(), 'Your success rate is')]").get_property("innerText"))
 
 # Fecha o Chrome
 driver.close()
