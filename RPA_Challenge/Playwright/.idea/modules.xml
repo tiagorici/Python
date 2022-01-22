@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/RPA_Challenge_Playwright.iml" filepath="$PROJECT_DIR$/.idea/RPA_Challenge_Playwright.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Playwright.iml" filepath="$PROJECT_DIR$/.idea/Playwright.iml" />
     </modules>
   </component>
 </project>
